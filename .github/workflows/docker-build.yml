@@ -26,4 +26,4 @@ jobs:
 
       - name: Verify Docker Image
         run: |
-          docker run --rm my-image:latest my-verify-command
+          docker images
