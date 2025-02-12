@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.set_output.outputs.commit_sha }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -29,9 +31,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: staging
+    env:
+      COMMIT_SHA: ${{ needs.build.outputs.commit_sha }}
     steps:
       - name: Use the value from the previous job
-        run: echo ${{ needs.build.outputs.commit_sha }}
+        run: echo $COMMIT_SHA
       - name: docker image listing
         run: |
           docker images
