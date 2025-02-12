@@ -21,11 +21,17 @@ jobs:
         run: |
           docker images
 
+      - name: Set output for job
+        id: set_output
+        run: echo "commit_sha=hello" >> $GITHUB_OUTPUT
+
   publish-staging:
     needs: build
     runs-on: ubuntu-latest
     environment: staging
     steps:
+      - name: Use the value from the previous job
+        run: echo ${{ needs.build.outputs.commit_sha }}
       - name: docker image listing
         run: |
           docker images
